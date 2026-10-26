@@ -203,11 +203,12 @@
                 if ($body['mode_white_page'] == 'loading') {
                     if (filter_var($body['url_white_page'], FILTER_VALIDATE_URL)) {
                         echo str_replace('<head>', '<head><base href="' . $body['url_white_page'] . '" />', file_get_contents($body['url_white_page'], FALSE, create_stream_context()));
-                    } elseif (file_exists($body['url_white_page'])) {
-                        if (pathinfo($body['url_white_page'], PATHINFO_EXTENSION) == 'html') {
-                            echo file_get_contents($body['url_white_page'], FALSE, create_stream_context());
+                    } elseif (file_exists(__DIR__ . '/' . $body['url_white_page'])) {
+                        $target_file = __DIR__ . '/' . $body['url_white_page'];
+                        if (pathinfo($target_file, PATHINFO_EXTENSION) == 'html') {
+                            echo file_get_contents($target_file, FALSE, create_stream_context());
                         } else {
-                            require_once($body['url_white_page']);
+                            require_once($target_file);
                         }
                     } else {
                         exit('White Page Not Found.');
